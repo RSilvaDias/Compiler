@@ -25,6 +25,33 @@ tabela_de_simbolos.append(token('real','real','real'))
 #functions.inList('entao',tabela_de_simbolos)
 #functions.inList('isabela',tabela_de_simbolos)
 
+def Scanner2(entrada):
+    #Estado inicial
+    if (entrada == ''):
+        return
+    #print(entrada[0])
+    if (entrada[0].isalpha()):
+        #transicao estado id
+        print("id")
+    elif (entrada[0].isdigit()):
+        #transicao estado num
+        print("digito")
+    elif (entrada[0] == "("):
+        #transicao estado AB_P
+        result = token('AB_P','(','Nulo')
+        print("Classe: ",result.classe,", Lexema: ",result.lexema,", Tipo: ",result.tipo)
+        return result
+    elif (entrada[0] == ')'):
+        result = token('FC_P',')','Nulo')
+        print("Classe: ",result.classe,", Lexema: ",result.lexema,", Tipo: ",result.tipo)
+        return result
+    elif (entrada[0] == '+' or entrada[0] == '-' or entrada[0] == '/' or entrada[0] == '*'):
+        result = token('OPR',entrada[0],'Nulo')
+        print("Classe: ",result.classe,", Lexema: ",result.lexema,", Tipo: ",result.tipo)
+        return result
+    return entrada
+
+
 file = open("teste.txt", "r")
 lexema = ''
 operador = ''
