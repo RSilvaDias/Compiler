@@ -3,17 +3,10 @@ import functions
 import states
 
 
-class token(NamedTuple):
-    classe: str
-    lexema: str
-    tipo: str
-
-
 file = open("teste.txt", "r")
 lexeme = ''
 LINHA = 1
 for line in file:
-    #print("Linha : ", LINHA)
     pos = 0
     while pos <= len(line):
         if ( pos < len(line)):

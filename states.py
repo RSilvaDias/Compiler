@@ -6,6 +6,11 @@ class token(NamedTuple):
     lexema: str
     tipo: str
 
+class result(NamedTuple):
+    token: token
+    count: int
+    pos: int
+
 tabela_de_simbolos = []
 tabela_de_simbolos.append(token('inicio','inicio','inicio'))
 tabela_de_simbolos.append(token('varinicio','varinicio','varinicio'))
@@ -199,7 +204,10 @@ def state11(entrada):
     global lexema
 
     if not entrada:
-        return token('id', lexema, 'Nulo')
+        if ( functions.inList(lexema,tabela_de_simbolos)):
+            return token(lexema,lexema,lexema)
+        else:
+            return token('id', lexema, 'Nulo')
     elif entrada[0].isdigit or entrada[0].isalpha or entrada[0] == '_':
         lexema  = lexema + entrada[0]
         entrada = entrada[1:]

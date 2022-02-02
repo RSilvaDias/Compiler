@@ -9,15 +9,14 @@ def scanner(entrada):
     return states.state0(entrada)
 
 
-#Verify that lexeme is on list
 def inList(lexema,tabela_de_simbolos):
     flag = False
     for i in range(len(tabela_de_simbolos)):
         if ( lexema == tabela_de_simbolos[i].lexema):
             flag = True
-            break
+            return True
     if ( flag == False):
-        tabela_de_simbolos.append(token.token(lexema,lexema,lexema))
+        return False
 
 def get_error(line,pos):
     count = 0
@@ -44,7 +43,7 @@ def get_Lit(line,pos): #Pega a constante literal
     #token = scanner(lexema)
     #print("classe:", token.classe," lexema:",token.lexema, " tipo:",token.tipo)
     print(scanner(lexema))
-    print(pos - 1)
+    #print(pos - 1) # Error position
     lexema = ''
     return count
 
