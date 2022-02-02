@@ -25,105 +25,64 @@ tabela_de_simbolos.append(token('real','real','real'))
 #functions.inList('entao',tabela_de_simbolos)
 #functions.inList('isabela',tabela_de_simbolos)
 
-def Scanner2(entrada):
-    #Estado inicial
-    if (entrada == ''):
-        return
-    #print(entrada[0])
-    if (entrada[0].isalpha()):
-        #transicao estado id
-        print("id")
-    elif (entrada[0].isdigit()):
-        #transicao estado num
-        print("digito")
-    elif (entrada[0] == "("):
-        #transicao estado AB_P
-        result = token('AB_P','(','Nulo')
-        print("Classe: ",result.classe,", Lexema: ",result.lexema,", Tipo: ",result.tipo)
-        return result
-    elif (entrada[0] == ')'):
-        result = token('FC_P',')','Nulo')
-        print("Classe: ",result.classe,", Lexema: ",result.lexema,", Tipo: ",result.tipo)
-        return result
-    elif (entrada[0] == '+' or entrada[0] == '-' or entrada[0] == '/' or entrada[0] == '*'):
-        result = token('OPR',entrada[0],'Nulo')
-        print("Classe: ",result.classe,", Lexema: ",result.lexema,", Tipo: ",result.tipo)
-        return result
-    return entrada
 
+pos = 0
 
 file = open("teste.txt", "r")
 lexema = ''
-operador = ''
-quebra = ''
+LINHA = 1
 for line in file:
-    for character in line:
-        if (character == ' ' or character == '/n'):
-            print(lexema)
-            lexema = ''
-        elif ( character == '(' or character == ')'):
-            print(lexema)
-            lexema = ''
-            lexema = lexema + character
-            print(lexema)
-            lexema = ''
-        elif (character == '<' or character == '>' or character == '=' or character == '-'):
-            if ( operador == ''):
-                print(lexema)
+    #print("Linha : ", LINHA)
+    pos = 0
+    while pos <= len(line):
+        if ( pos < len(line)):
+            if ( line[pos] == '"'):  #Literal
+                x = functions.get_Lit(line,pos)
                 lexema = ''
-                operador = operador + character
-            else:
-                operador = operador + character
-                print(operador)
-                operador = ''
+                pos = pos + x + 2
+                continue
+            if ( line[pos].isdigit()): #Num
+                x = functions.get_Num(line,pos)
                 lexema = ''
-        elif ( character == '"'):
-            if (lexema != ''):
-                print(lexema)
+                pos = pos + x
+                continue
+            if ( line[pos].isalpha()): # id
+                x = functions.get_ID(line,pos)
                 lexema = ''
-                lexema = lexema + character
-            else:
-                lexema = lexema + character
-        elif ( character == ';'):
-            if ( lexema != ''):
-                print(lexema)
+                pos = pos + x
+                continue
+            if ( line[pos] == '{'):  #comentario
+                x = functions.get_Comentario(line,pos)
                 lexema = ''
-                lexema = lexema + character
-        elif ( character == ':' or character == '+' or character == '/' or character == '*'):
-            if ( lexema != ''):
-                print(lexema)
+                pos = pos + x + 2
+                continue
+            if (line[pos] == '<' or line[pos] == '>'
+                or line[pos] == '=' ): #Operador Relacional
+                x = functions.get_OPR(line,pos)
                 lexema = ''
-                lexema = lexema + character
-        elif ( character == '\\'):
-            print(lexema)
-            lexema = ''
-            quebra = quebra + character
-            #lexema = lexema + character
-        elif ( character == 'n' and quebra == '\\'):
-            if ( operador != ''):
-                print(operador)
-                operador = ''
-            if (lexema == '"' or lexema == ';' or lexema == ':' or lexema == '+' or lexema == '/' or lexema == '*'):
-                print(lexema)
+                pos = pos + x
+                continue
+            if (line[pos] == '('): #AB_P
+                x = functions.get_ABP(line,pos)
                 lexema = ''
-            print(lexema)
-            lexema = ''
-            quebra = quebra + character
-            print (quebra)
-            quebra = ''
-        else:
-            if ( operador != ''):
-                print(operador)
-                operador = ''
-            if (lexema == '"' or lexema == ';' or lexema == ':' or lexema == '+' or lexema == '/' or lexema == '*'):
-                print(lexema)
+                pos = pos + x
+                continue
+            if (line[pos] == ')'): #FC_P
+                x = functions.get_FCP(line,pos)
                 lexema = ''
-            lexema = lexema + character
-    print(lexema)
+                pos = pos + x
+                continue
+            if (line[pos] == '+' or line[pos] == '-' or
+                line[pos] == '*' or line[pos] == '/'):
+                x = functions.get_OPM(line,pos) #OPM
+                lexema = ''
+                pos = pos + x
+                continue
+            if (line[pos] == ';'): #PTV
+                x = functions.get_PTV(line,pos)
+                lexema = ''
+                pos = pos + x
+                continue
 
-def Scanner(entrada):
-    print(entrada)
-    return entrada
-#Separar quebra de linha
-#isalpha() #verifica letras
-#isdigit() #verifica digitos
+        pos = pos + 1
+    LINHA = LINHA + 1
