@@ -7,9 +7,16 @@ class token(NamedTuple):
     tipo: str
 
 class result(NamedTuple):
+    result: str
+    count: int
+    pos: int
+    linha: int
+
+class TOKEN(NamedTuple):
     token: token
     count: int
     pos: int
+    linha: int
 
 tabela_de_simbolos = []
 tabela_de_simbolos.append(token('inicio','inicio','inicio'))

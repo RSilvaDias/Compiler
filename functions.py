@@ -1,5 +1,7 @@
 import states
 
+global LINHA
+LINHA = 1
 global pos
 pos = 0
 global colunaErro
@@ -7,6 +9,13 @@ colunaErro = 0
 
 def scanner(entrada):
     return states.state0(entrada)
+
+def printResult(result):
+    if (result.token.classe) != "Ignorar":
+        print("Classe:",result.token.classe ,
+              ",Lexema:",result.token.lexema ,
+              ",Tipo:",result.token.tipo)
+
 
 
 def inList(lexema,tabela_de_simbolos):
@@ -24,10 +33,8 @@ def get_error(line,pos):
     lexema = lexema + line[pos]
     pos = pos + 1
     count = count + 1
-    print(scanner(lexema))
-    #print("O ERRO TA AQUI ISABELA : ", pos)
-    lexema = ''
-    return count
+    # Error position is : pos - 1
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_Lit(line,pos): #Pega a constante literal
     count = 0
@@ -40,12 +47,7 @@ def get_Lit(line,pos): #Pega a constante literal
         count = count + 1
     lexema = lexema + line[pos]
     pos = pos + 1
-    #token = scanner(lexema)
-    #print("classe:", token.classe," lexema:",token.lexema, " tipo:",token.tipo)
-    print(scanner(lexema))
-    #print(pos - 1) # Error position
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_Comentario(line,pos):
     count = 0
@@ -58,9 +60,7 @@ def get_Comentario(line,pos):
         count = count + 1
     lexema = lexema + line[pos]
     pos = pos + 1
-    print(scanner(lexema))
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_Num(line,pos):
     count = 0
@@ -70,9 +70,7 @@ def get_Num(line,pos):
             lexema = lexema + line[pos]
             pos = pos + 1
             count = count + 1
-    print(scanner(lexema))
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_ID(line,pos):
     count = 0
@@ -81,9 +79,7 @@ def get_ID(line,pos):
         lexema = lexema + line[pos]
         pos = pos + 1
         count = count + 1
-    print(scanner(lexema))
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_OPR(line,pos):
     count = 0
@@ -93,9 +89,7 @@ def get_OPR(line,pos):
         lexema = lexema + line[pos]
         pos = pos + 1
         count = count + 1
-    print(scanner(lexema))
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_ABP(line,pos):
     count = 0
@@ -103,9 +97,7 @@ def get_ABP(line,pos):
     lexema = lexema + line[pos]
     pos = pos + 1
     count = count + 1
-    print(scanner(lexema))
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_FCP(line,pos):
     count = 0
@@ -113,9 +105,7 @@ def get_FCP(line,pos):
     lexema = lexema + line[pos]
     pos = pos + 1
     count = count + 1
-    print(scanner(lexema))
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_OPM(line,pos):
     count = 0
@@ -123,9 +113,7 @@ def get_OPM(line,pos):
     lexema = lexema + line[pos]
     pos = pos + 1
     count = count + 1
-    print(scanner(lexema))
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
 
 def get_PTV(line,pos):
     count = 0
@@ -133,6 +121,4 @@ def get_PTV(line,pos):
     lexema = lexema + line[pos]
     pos = pos + 1
     count = count + 1
-    print(scanner(lexema))
-    lexema = ''
-    return count
+    return (states.result(lexema,count,pos-1,LINHA))
