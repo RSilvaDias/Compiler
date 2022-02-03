@@ -42,7 +42,7 @@ def state0(entrada):
     lexema = ''
     global pos
     global colunaErro
-    #print(entrada)
+
     if not entrada:
         return None
     elif entrada[0].isdigit():
@@ -211,9 +211,11 @@ def state11(entrada):
     global lexema
 
     if not entrada:
-        if ( functions.inList(lexema,tabela_de_simbolos)):
-            return token(lexema,lexema,lexema)
+        tokenaux = functions.inList(lexema,tabela_de_simbolos)
+        if (tokenaux):
+            return tokenaux
         else:
+            tabela_de_simbolos.append(token('id', lexema, 'Nulo'))
             return token('id', lexema, 'Nulo')
     elif entrada[0].isdigit or entrada[0].isalpha or entrada[0] == '_':
         lexema  = lexema + entrada[0]
@@ -398,8 +400,8 @@ def state25(entrada):
 
 def tokenErro(entrada):
     global lexema
-
-    lexema = lexema + entrada[0]
+    if entrada:
+        lexema = lexema + entrada[0]
     functions.colunaErro = functions.pos - len(entrada)
     return token('ERRO', lexema, 'Nulo')
 
