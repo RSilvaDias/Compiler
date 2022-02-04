@@ -85,3 +85,5 @@ if __name__ == '__main__':
 
             pos = pos + 1
         functions.LINHA = functions.LINHA + 1
+
+    functions.printEOF()

@@ -34,6 +34,8 @@ def printResult(result):
                   ",Lexema:",result.token.lexema ,
                   ",Tipo:",result.token.tipo)
             print("ERRO léxico - Caractere Inválido. ""Linha: ",result.linha,"Coluna: ",result.pos+1)
+def printEOF():
+    print("Classe: EOF ,Lexema: EOF ,Tipo: Nulo")
 
 def inList(lexema,tabela_de_simbolos):
     for i in range(len(tabela_de_simbolos)):
@@ -47,7 +49,6 @@ def get_error(line,pos):
     lexema = lexema + line[pos]
     pos = pos + 1
     count = count + 1
-    # Error position is : pos - 1
     return (states.result(lexema,count,pos-1,LINHA))
 
 def get_Lit(line,pos):
