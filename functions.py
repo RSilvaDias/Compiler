@@ -137,3 +137,14 @@ def get_PTV(line,pos):
     pos = pos + 1
     count = count + 1
     return (states.result(lexema,count,pos-1,LINHA))
+
+def tamanho_beta(beta):
+    i = 0
+    sum = 0
+    while ( i < len(beta)):
+        while(i < len(beta) and beta[i] == ' '):
+            i = i + 1;
+        while(i < len(beta) and beta[i] != ' '):
+            i = i + 1;
+        sum = sum + 1
+    return sum
