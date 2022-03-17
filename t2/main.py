@@ -54,6 +54,7 @@ for line in file:
     lexico.lexico(line)
 
 ######## IMPLEMENTACAO ALGORITMO #########
+lexico.tokens.append(states.token("$","$","$"))
 pilha.append(0) #State 0
 
 token = lexico.tokens.pop(0)
