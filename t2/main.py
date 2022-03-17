@@ -1,11 +1,12 @@
 import pandas as pd
+import lexico
+import functions
 
 pilha = []
 GOTO = pd.read_csv('tabela_goto.csv')
 ACTION = pd.read_csv('tabela_action.csv')
-
-
-# pilha[-1] - Get the top element on stack
+ACTION.reset_index(drop = False, inplace = True)
+#ACTION.fillna(0, inplace=True)
 
 regras = [[],
           ["P'","P"],
@@ -46,48 +47,53 @@ regras = [[],
           ["CP_R","CND CP_R"],
           ["CP_R","fimrepita"],
           ["A","fim"]]
-j = 1
-while ( j < len(regras)):
-    print(regras[j][0], "->", regras[j][1])
-    j = j + 1
+
+file = open("test.txt", "r")
+
+for line in file:
+    lexico.lexico(line)
 
 ######## IMPLEMENTACAO ALGORITMO #########
 pilha.append(0) #State 0
 
-token = get_token()
+token = lexico.tokens.pop(0)
 a = token.classe
+
 while True:
     estado = pilha[-1]
-    acao =  ACTION.at[estado,a]     #Pega a acao na tabela ACTION
+    acao =  ACTION.at[int(estado),a.lower()]     #Pega a acao na tabela ACTION
 
-    if acao[0] == 's':   #SHIFT
-        t = acao[1:]     # Pega o numero da acao
-        pilha.append(t)  # Estado no topo da pilha
-        token            # pega o proximo token
+    if acao[0] == 's':      #SHIFT
+        t = acao[1:]        # Pega o numero da acao
+        pilha.append(t)     # Estado no topo da pilha
+        token = lexico.tokens.pop(0)
+        a = token.classe
 
     elif acao[0] == 'r':    #REDUCE
         t = acao[1:]        # Pega o numero da acao
-        A = regras[t][0]    # Pega a parte esquerda da regra
-        B = regras[t][1]    # Pega a prte direita da regra
+        A = regras[int(t)][0]    # Pega a parte esquerda da regra
+        B = regras[int(t)][1]    # Pega a prte direita da regra
         beta = functions.tamanho_beta(B)
 
         for i in range(beta):       #Deletando tamanho de beta da pilha
             pilha.pop();
 
         t = pilha[-1]       # Topo da pilha
-        acao = GOTO.at[t,A] # Pega o estado na tabela GOTO
-        pilha.append(acao[1:])
+        acao = GOTO.at[int(t),A] # Pega o estado na tabela GOTO
+        # TODO: verifica esse empilhamento
+        pilha.append(int(acao)) #acao2[1:]
 
         print(A,"->",B)
 
     elif acao == "ACEITO":
-        A = regras[estado][0]
-        B = regras[estado][1]
+        A = regras[int(estado)][0]
+        B = regras[int(estado)][1]
 
         print(A,"->",B)
         break
     else:
         #Tratamento de ERRO
+        print("Erro")
 
 #print(ACTION.to_string())
 #print(GOTO.iat[0,0])

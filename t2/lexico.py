@@ -15,7 +15,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count + 2
                     continue
@@ -24,7 +25,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count
                     continue
@@ -33,7 +35,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count
                     continue
@@ -42,7 +45,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count + 2
                     continue
@@ -52,7 +56,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count
                     continue
@@ -61,7 +66,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count
                     continue
@@ -70,7 +76,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count
                     continue
@@ -80,7 +87,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count
                     continue
@@ -89,7 +97,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count
                     continue
@@ -98,7 +107,8 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     #functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
-                    tokens.append(states.token(result.classe,result.lexema,result.tipo))
+                    if result.classe != 'Ignorar':
+                        tokens.append(states.token(result.classe,result.lexema,result.tipo))
 
                     pos = pos + x.count
                     continue
