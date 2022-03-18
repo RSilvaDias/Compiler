@@ -34,6 +34,8 @@ tabela_de_simbolos.append(token('inteiro','inteiro','inteiro'))
 tabela_de_simbolos.append(token('literal','literal','literal'))
 tabela_de_simbolos.append(token('real','real','real'))
 
+terminais = [["inicio"],["varinicio"],["varfim"],["pt_v"],["id"],["vir"],["inteiro"],["real"],["literal"],["escreva"],["lit"],["num"],["rcb"],["opm"],["se"],["fimse"],["ab_p"],["fc_p"],["entao"],["opr"],["repita"],["fimrepita"],["fim"],["$"]]
+nao_terminais = [["P"],["V"],["LV"],["D"],["L"],["TIPO"],["A"],["ES"],["ARG"],["CMD"],["LD"],["OPRD"],["COND"],["CAB"],["EXP_R"],["CP"],["R"],["CPR"]]
 
 lexema = ''
 

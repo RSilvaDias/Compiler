@@ -115,5 +115,5 @@ def lexico(line):
 
             pos = pos + 1
     functions.LINHA = functions.LINHA + 1
-
+    #tokens.append(states.token("$","$","$"))
     #functions.printEOF()

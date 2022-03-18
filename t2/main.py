@@ -1,12 +1,14 @@
 import pandas as pd
 import lexico
 import functions
+import states
 
 pilha = []
 GOTO = pd.read_csv('tabela_goto.csv')
 ACTION = pd.read_csv('tabela_action.csv')
-ACTION.reset_index(drop = False, inplace = True)
-#ACTION.fillna(0, inplace=True)
+#ACTION.reset_index(drop = False, inplace = True)
+ACTION.fillna("e", inplace=True)
+GOTO.fillna("e", inplace=True)
 
 regras = [[],
           ["P'","P"],
@@ -41,11 +43,11 @@ regras = [[],
           ["CP","COND CP"],
           ["CP","fimse"],
           ["A","R A"],
-          ["R","repita ab_p EXP_R fc_p CP_R"],
-          ["CP_R","ES CP_R"],
-          ["CP_R","CMD CP_R"],
-          ["CP_R","CND CP_R"],
-          ["CP_R","fimrepita"],
+          ["R","repita ab_p EXP_R fc_p CPR"],
+          ["CPR","ES CPR"],
+          ["CPR","CMD CPR"],
+          ["CPR","CND CPR"],
+          ["CPR","fimrepita"],
           ["A","fim"]]
 
 file = open("test.txt", "r")
@@ -55,19 +57,21 @@ for line in file:
 
 ######## IMPLEMENTACAO ALGORITMO #########
 lexico.tokens.append(states.token("$","$","$"))
-pilha.append(0) #State 0
+pilha.append(0)     #State 0
 
 token = lexico.tokens.pop(0)
 a = token.classe
 
 while True:
+
     estado = pilha[-1]
     acao =  ACTION.at[int(estado),a.lower()]     #Pega a acao na tabela ACTION
 
     if acao[0] == 's':      #SHIFT
         t = acao[1:]        # Pega o numero da acao
         pilha.append(t)     # Estado no topo da pilha
-        token = lexico.tokens.pop(0)
+        if lexico.tokens:
+            token = lexico.tokens.pop(0)
         a = token.classe
 
     elif acao[0] == 'r':    #REDUCE
@@ -80,10 +84,9 @@ while True:
             pilha.pop();
 
         t = pilha[-1]       # Topo da pilha
-        acao = GOTO.at[int(t),A] # Pega o estado na tabela GOTO
-        # TODO: verifica esse empilhamento
-        pilha.append(int(acao)) #acao2[1:]
-
+        acao2 = GOTO.at[int(t),A] # Pega o estado na tabela GOTO
+        # TODO: verificar esse empilhamento
+        pilha.append(int(acao2)) #acao2[1:]
         print(A,"->",B)
 
     elif acao == "ACEITO":
@@ -94,7 +97,43 @@ while True:
         break
     else:
         #Tratamento de ERRO
-        print("Erro")
+        erro = ''
+        for i in range(len(states.terminais)):
+            erro = states.terminais[i][0]
+            if (ACTION.at[int(estado),erro] != "e"):
+                break
+
+        print("ERRO SINTATICO - Token Missing - ",erro,"na posicao: ")
+        flag = False
+
+        while (pilha and flag == False):
+            s = pilha[-1]
+
+            for i in range(len(states.nao_terminais)):
+                if GOTO.at[int(s),states.nao_terminais[i][0]] != 'e':
+                    flag = True
+                    s2 = GOTO.at[int(s),states.nao_terminais[i][0]]
+                    break;
+
+            if flag == True:
+                pilha.append(int(s2))
+            if flag == False:
+                pilha.pop()
+            if not pilha:
+                print("PILHA VAZIA")
+
+        s = pilha[-1]
+
+        while True:
+            if(ACTION.at[int(s),a.lower()] != 'e'):
+                break
+            if a == "$":
+
+                print("PARSER FINALIZADO")
+                exit()
+
+            token = lexico.tokens.pop(0)
+            a = token.classe
 
 #print(ACTION.to_string())
 #print(GOTO.iat[0,0])
