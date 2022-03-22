@@ -1,4 +1,5 @@
 import states
+import lexico
 
 global LINHA
 LINHA = 1
@@ -148,3 +149,12 @@ def tamanho_beta(beta):
             i = i + 1;
         sum = sum + 1
     return sum
+
+def SCANNER():
+    auxiliar = lexico.tokens[0]
+
+    while auxiliar.token.classe == "Comentario" or auxiliar.token.classe == "ERRO" :
+        lexico.tokens.pop(0)
+        auxiliar = lexico.tokens[0]
+    if lexico.tokens:
+        return lexico.tokens.pop(0)
