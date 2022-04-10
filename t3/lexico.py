@@ -112,6 +112,7 @@ def lexico(line):
                     lexeme = ''
                     result = functions.scanner(x.result)
                     functions.printResult(states.TOKEN(result,x.count,x.pos,x.linha))
+                    
                     if result.classe != 'Ignorar':
                         #tokens.append(states.token(result.classe,result.lexema,result.tipo))
                         tokens.append(states.TOKEN(result,x.count,x.pos,x.linha))

@@ -17,6 +17,7 @@ def printResult(result):
     #          ",Lexema:",result.token.lexema ,
     #          ",Tipo:",result.token.tipo)
     if (result.token.classe) == "ERRO":
+        states.erro_lexico = True
         if(result.token.lexema[len(result.token.lexema)-1] == '\n'):
             if (result.token.lexema[0] == '{'):
                 lexema = result.token.lexema[:len(result.token.lexema)-1]

@@ -18,7 +18,8 @@ class TOKEN(NamedTuple):
     pos: int
     linha: int
 
-
+erro_lexico = False
+erro_sintatico = False
 erro_semantico = False
 valortx = 0
 

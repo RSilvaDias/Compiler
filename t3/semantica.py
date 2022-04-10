@@ -6,10 +6,7 @@ import states as s
 
 qtdRegras = 38
 pilha = []
-arquivo_final = ["#include<studio.h>\n\n",
-                 "typedef char literal[256];\n",
-                 "void main(void)\n",
-                 "{\n"]
+arquivo_final = []
 
 
 def analise_semantica(pilha_semantica,A,B):
@@ -75,10 +72,9 @@ def analise_semantica(pilha_semantica,A,B):
             tipo = "double"
         elif ( token_TIPO.token.tipo == "literal"):
             tipo = "literal"
-        arquivo_final.append(tipo)
-        arquivo_final.append(" ")
-        arquivo_final.append(token_L.token.lexema)
-        arquivo_final.append(";\n")
+        nome = tipo+" "+token_L.token.lexema+";\n"
+        
+        arquivo_final.append(nome)
         pilha_semantica.append(new_token)
 
     if regra == 7: #Rever
@@ -163,7 +159,6 @@ def analise_semantica(pilha_semantica,A,B):
         token_pt_v = pilha.pop()
 
         nome = ''
-
         for i in range(len(s.tabela_de_simbolos)):
             if (s.tabela_de_simbolos[i].classe == token_id.token.classe and
                 s.tabela_de_simbolos[i].lexema == token_id.token.lexema):
@@ -206,12 +201,12 @@ def analise_semantica(pilha_semantica,A,B):
                 nome = "printf(\"%s\", " + token_ARG.token.lexema +");\n"
             arquivo_final.append(nome)
 
-        elif (token_ARG.token.tipo == "inteiro"):
+        if (token_ARG.token.tipo == "inteiro"):
             nome = "printf(\"%d\", " + token_ARG.token.lexema +");\n"
             arquivo_final.append(nome)
-        elif (token_ARG.token.tipo == "real"):
+        if (token_ARG.token.tipo == "real"):
             nome = "printf(\"%lf\", " + token_ARG.token.lexema +");\n"
-            aquivo_final.append(nome)
+            arquivo_final.append(nome)
 
         new_token = s.TOKEN(s.token("ES",nome,"Nulo"),token_ARG.count,token_ARG.pos,token_ARG.linha)
         pilha_semantica.append(new_token)
@@ -240,6 +235,7 @@ def analise_semantica(pilha_semantica,A,B):
         for i in range(1,len(s.tabela_de_simbolos)):
             if (s.tabela_de_simbolos[i].classe == token_id.token.classe and
                 s.tabela_de_simbolos[i].lexema == token_id.token.lexema ):
+                aux2 = s.tabela_de_simbolos[i].tipo
                 flag = True
 
         if flag == False:
@@ -247,7 +243,8 @@ def analise_semantica(pilha_semantica,A,B):
             print("Erro : Variavel nao declarada ",token_id.token.lexema,
             " Regra 17 -- Linha : ", token_id.linha , "Coluna : ", token_id.pos)
 
-        new_token = s.TOKEN(s.token("ARG",token_id.token.lexema,token_id.token.tipo),token_id.count,token_id.pos,token_id.linha)
+        new_token = s.TOKEN(s.token("ARG",token_id.token.lexema,aux2),token_id.count,token_id.pos,token_id.linha)
+
         pilha_semantica.append(new_token)
 
     if regra == 18:
@@ -298,8 +295,9 @@ def analise_semantica(pilha_semantica,A,B):
             (token_OPRD1.token.tipo != "literal") and
             (token_OPRD2.token.tipo != "literal")):
 
-            nome = "T"+str(s.valortx)+"="+token_OPRD1.token.lexema+" "+token_opm.token.lexema+" "+token_OPRD2.token.lexema+";\n"
+            nome = "T"+str(s.valortx)+" = "+token_OPRD1.token.lexema+" "+token_opm.token.lexema+" "+token_OPRD2.token.lexema+";\n"
             arquivo_final.append(nome)
+            s.valortx = s.valortx + 1
         else:
             s.erro_semantico = True
             print("Erro: Operandos com tipos incompativeis. Regra 20. Linha :",
@@ -352,6 +350,7 @@ def analise_semantica(pilha_semantica,A,B):
 
         new_token = s.TOKEN(s.token("COND","COND","COND"),token_CP.count,token_CP.pos,token_CP.linha)
         pilha_semantica.append(new_token)
+        arquivo_final.append("}\n")
 
     if regra == 26:
         token_se = pilha.pop()
@@ -388,7 +387,7 @@ def analise_semantica(pilha_semantica,A,B):
 
         if ( token_OPRD1.token.tipo == token_OPRD2.token.tipo):
 
-            name = "T" + str(s.valortx) + "=" + token_OPRD1.token.lexema + " " + token_opm.token.lexema + " " + token_OPRD2.token.lexema + ";\n"
+            name = "T" + str(s.valortx) + " = " + token_OPRD1.token.lexema + " " + token_opm.token.lexema + " " + token_OPRD2.token.lexema + ";\n"
             arquivo_final.append(name)
 
             if (token_se_ou_repita.token.classe == "repita"):
